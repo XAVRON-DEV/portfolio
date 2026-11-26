@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# TODO: Replace https://xavron.dev with your final deployed domain
+Sitemap: https://xavron.dev/sitemap.xml
