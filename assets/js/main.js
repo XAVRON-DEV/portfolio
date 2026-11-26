@@ -222,14 +222,17 @@
     if (contact.githubOrg && !isTodoValue(contact.githubOrg)) {
       socialLinks.push({ label: 'stackotools', href: contact.githubOrg });
     }
+    if (contact.telegram && !isTodoValue(contact.telegram)) {
+      socialLinks.push({ label: 'Telegram', href: contact.telegram });
+    }
+    if (contact.instagram && !isTodoValue(contact.instagram)) {
+      socialLinks.push({ label: 'Instagram', href: contact.instagram });
+    }
     if (contact.linkedin && !isTodoValue(contact.linkedin)) {
       socialLinks.push({ label: 'LinkedIn', href: contact.linkedin });
     }
     if (contact.twitter && !isTodoValue(contact.twitter)) {
       socialLinks.push({ label: 'X / Twitter', href: contact.twitter });
-    }
-    if (contact.instagram && !isTodoValue(contact.instagram)) {
-      socialLinks.push({ label: 'Instagram', href: contact.instagram });
     }
     if (contact.email && !isTodoValue(contact.email)) {
       socialLinks.push({ label: 'Email', href: `mailto:${contact.email}` });
@@ -767,6 +770,16 @@
           actionHtml: `<button type="button" class="btn btn--secondary btn--sm" id="copy-email-btn">Copy</button>`
         },
         {
+          label: 'Telegram',
+          value: '@Dangerous_Bomberr',
+          href: c.telegram
+        },
+        {
+          label: 'Instagram',
+          value: '@web.devlop.4u',
+          href: c.instagram
+        },
+        {
           label: 'GitHub (Personal)',
           value: 'github.com/XAVRON-DEV',
           href: c.githubPersonal
@@ -775,23 +788,8 @@
           label: 'GitHub (Projects)',
           value: 'github.com/stackotools',
           href: c.githubOrg
-        },
-        {
-          label: 'LinkedIn',
-          value: isTodoValue(c.linkedin) ? 'TODO: Add LinkedIn URL in config.js' : c.linkedin,
-          href: isTodoValue(c.linkedin) ? null : c.linkedin
-        },
-        {
-          label: 'X / Twitter',
-          value: isTodoValue(c.twitter) ? 'TODO: Add X / Twitter URL in config.js' : c.twitter,
-          href: isTodoValue(c.twitter) ? null : c.twitter
-        },
-        {
-          label: 'WhatsApp',
-          value: isTodoValue(c.whatsapp) ? 'TODO: Add WhatsApp link in config.js' : c.whatsapp,
-          href: isTodoValue(c.whatsapp) ? null : c.whatsapp
         }
-      ];
+      ].filter((row) => row.actionHtml || (row.href && !isTodoValue(row.href)));
 
       reachEl.innerHTML = rows
         .map((row) => {

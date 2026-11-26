@@ -29,11 +29,8 @@ window.PORTFOLIO_CONFIG = {
     // TODO: Replace with your real business/freelance email
     email: "TODO-your-email@example.com",
     formspreeEndpoint: "https://formspree.io/f/xvkakkvr",
-    // TODO: Replace "TODO" with your profile URLs (or leave "TODO" to keep hidden/marked)
-    linkedin: "TODO",
-    twitter: "TODO",
-    instagram: "TODO",
-    whatsapp: "TODO",
+    telegram: "https://t.me/Dangerous_Bomberr",
+    instagram: "https://www.instagram.com/web.devlop.4u?fqnt=MXJmN2g5NjJsemdtMQ==",
     githubPersonal: "https://github.com/XAVRON-DEV",
     githubOrg: "https://github.com/stackotools",
     // TODO: Replace with a hosted PDF link (e.g. /assets/Awais-Resume.pdf or Google Drive link)
