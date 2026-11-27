@@ -9,7 +9,7 @@ window.PORTFOLIO_CONFIG = {
   // 1. OWNER & BRAND IDENTITY
   // --------------------------------------------------------------------------
   brand: "XAVRON",
-  ownerName: "Awais",
+  ownerName: "Dilkash",
   location: "Kolkata, India",
   locationShort: "Kolkata, IN",
   timezone: "Asia/Kolkata",
@@ -32,7 +32,7 @@ window.PORTFOLIO_CONFIG = {
     instagram: "https://www.instagram.com/web.devlop.4u?fqnt=MXJmN2g5NjJsemdtMQ==",
     githubPersonal: "https://github.com/XAVRON-DEV",
     githubOrg: "https://github.com/stackotools",
-    // TODO: Replace with a hosted PDF link (e.g. /assets/Awais-Resume.pdf or Google Drive link)
+    // TODO: Replace with a hosted PDF link (e.g. /assets/Dilkash-Resume.pdf or Google Drive link)
     resumeUrl: "TODO"
   },
 
@@ -51,7 +51,7 @@ window.PORTFOLIO_CONFIG = {
   // 4. HOME HERO & REAL STATS
   // --------------------------------------------------------------------------
   hero: {
-    greeting: "Hi, I'm Awais",
+    greeting: "Hi, I'm Dilkash",
     tagline: "Full-stack developer building fast, useful web products.",
     supportingLine:
       "I design and engineer clean, mobile-first websites, full-stack web apps, browser utilities, and Meta Ads campaigns—built to load fast and convert cleanly.",
@@ -473,9 +473,9 @@ window.PORTFOLIO_CONFIG = {
   // --------------------------------------------------------------------------
   about: {
     teaser:
-      "I'm Awais, a full-stack developer based in Kolkata, India, building under the name XAVRON. Whether it's a MERN application with AI-assisted workflows or a lightweight browser utility, I focus on clear interfaces, solid backend fundamentals, and fast mobile performance.",
+      "I'm Dilkash, a full-stack developer based in Kolkata, India, building under the name XAVRON. Whether it's a MERN application with AI-assisted workflows or a lightweight browser utility, I focus on clear interfaces, solid backend fundamentals, and fast mobile performance.",
     intro:
-      "I'm Awais—a web developer from Kolkata, India, working under the alias XAVRON. I enjoy taking ideas from an empty repository to a live, usable product on the web.",
+      "I'm Dilkash—a web developer from Kolkata, India, working under the alias XAVRON. I enjoy taking ideas from an empty repository to a live, usable product on the web.",
     whatIBuild:
       "Across my software projects on GitHub (under stackotools and XAVRON-DEV), I've built full-stack MERN applications like QueryHub and AI Finance Manager as well as client-side browser tools in Web Tools. Alongside development, I manage Meta Ads (Facebook & Instagram)—connecting campaign targeting, Meta Pixel tracking, and fast mobile landing pages.",
     // TODO: Replace with what you are actively learning right now

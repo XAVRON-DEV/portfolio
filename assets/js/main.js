@@ -281,7 +281,7 @@
           </nav>
         </div>
         <div class="footer-bottom">
-          <p class="footer-credit">${credit} · &copy; ${year} ${brand} (${escapeHtml(cfg.ownerName || 'Awais')})</p>
+          <p class="footer-credit">${credit} · &copy; ${year} ${brand} (${escapeHtml(cfg.ownerName || 'Dilkash')})</p>
           <button type="button" id="back-to-top" class="btn btn--secondary btn--sm">
             Back to top ↑
           </button>
