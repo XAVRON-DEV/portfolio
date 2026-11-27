@@ -1163,7 +1163,7 @@
 
       if (hasError) return;
 
-      const endpoint = cfg.contact?.formspreeEndpoint || 'https://formspree.io/f/xvkakkvr';
+      const endpoint = cfg.contact?.formspreeEndpoint || 'https://formspree.io/f/mrpqdvrg';
 
       if (submitBtn) {
         submitBtn.disabled = true;

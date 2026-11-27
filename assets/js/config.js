@@ -27,7 +27,7 @@ window.PORTFOLIO_CONFIG = {
   // --------------------------------------------------------------------------
   contact: {
     email: "webdevlop4uu@gmail.com",
-    formspreeEndpoint: "https://formspree.io/f/xvkakkvr",
+    formspreeEndpoint: "https://formspree.io/f/mrpqdvrg",
     telegram: "https://t.me/Webdevlop4u",
     instagram: "https://www.instagram.com/web.devlop.4u?fqnt=MXJmN2g5NjJsemdtMQ==",
     githubPersonal: "https://github.com/XAVRON-DEV",
