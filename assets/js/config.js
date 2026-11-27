@@ -28,7 +28,7 @@ window.PORTFOLIO_CONFIG = {
   contact: {
     email: "webdevlop4uu@gmail.com",
     formspreeEndpoint: "https://formspree.io/f/xvkakkvr",
-    telegram: "https://t.me/Dangerous_Bomberr",
+    telegram: "https://t.me/Webdevlop4u",
     instagram: "https://www.instagram.com/web.devlop.4u?fqnt=MXJmN2g5NjJsemdtMQ==",
     githubPersonal: "https://github.com/XAVRON-DEV",
     githubOrg: "https://github.com/stackotools",
@@ -229,7 +229,7 @@ window.PORTFOLIO_CONFIG = {
     ],
     // TODO: Replace this invite note with verified Meta Ads campaign case studies (objective, creative format, verified results)
     caseStudyTodoNote:
-      "Looking for Meta Ads campaign setups, creative structures, or landing funnel walkthroughs? Reach out on Telegram (@Dangerous_Bomberr) or email (webdevlop4uu@gmail.com) to review examples tailored to your niche."
+      "Looking for Meta Ads campaign setups, creative structures, or landing funnel walkthroughs? Reach out on Telegram (@WebDevlop4u) or email (webdevlop4uu@gmail.com) to review examples tailored to your niche."
   },
 
   // --------------------------------------------------------------------------

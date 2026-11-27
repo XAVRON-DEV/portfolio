@@ -1031,7 +1031,7 @@
         },
         {
           label: 'Telegram',
-          value: '@Dangerous_Bomberr',
+          value: '@WebDevlop4u',
           href: c.telegram
         },
         {
