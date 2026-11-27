@@ -1,6 +1,7 @@
 /* ==========================================================================
-   XAVRON PORTFOLIO — MAIN APPLICATION SCRIPT
-   Handles shared layout injection, config hydration, motion, and contact form.
+   XAVRON PORTFOLIO — REDESIGNED MAIN APPLICATION SCRIPT
+   Handles shared chrome, interactive studio switcher, Meta Ads funnel UI,
+   browser-framed showcases, motion, and Formspree submission.
    ========================================================================== */
 
 (function () {
@@ -12,7 +13,7 @@
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ------------------------------------------------------------------------
-     1. UTILITIES
+     1. UTILITIES & ICONS
      ------------------------------------------------------------------------ */
   function escapeHtml(str) {
     return String(str ?? '')
@@ -40,6 +41,16 @@
     return current === target || current.startsWith(target + '/');
   }
 
+  function formatDomainLabel(urlStr) {
+    try {
+      const u = new URL(urlStr);
+      const path = u.pathname && u.pathname !== '/' ? u.pathname.replace(/\/+$/, '') : '';
+      return u.hostname + path;
+    } catch (_) {
+      return urlStr || 'live-app';
+    }
+  }
+
   function showToast(message) {
     let toast = document.getElementById('site-toast');
     if (!toast) {
@@ -62,11 +73,24 @@
     return (
       '<span class="brand-mark" aria-hidden="true">' +
       '<svg width="16" height="16" viewBox="0 0 64 64" fill="none">' +
-      '<path d="M16 16L32 31L48 16" stroke="#ededed" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '<path d="M16 48L32 33L48 48" stroke="#e8b86d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M16 16L32 31L48 16" stroke="#f4f4f6" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M16 48L32 33L48 48" stroke="#8ab4f8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>' +
       '</svg>' +
       '</span>'
     );
+  }
+
+  function getIconSvg(kind) {
+    const icons = {
+      layout: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="9" y1="10" x2="9" y2="20"/></svg>',
+      layers: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
+      tool: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+      target: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>',
+      users: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+      pulse: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+      bolt: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
+    };
+    return `<span class="icon-badge" aria-hidden="true">${icons[kind] || icons.layers}</span>`;
   }
 
   /* ------------------------------------------------------------------------
@@ -228,12 +252,6 @@
     if (contact.instagram && !isTodoValue(contact.instagram)) {
       socialLinks.push({ label: 'Instagram', href: contact.instagram });
     }
-    if (contact.linkedin && !isTodoValue(contact.linkedin)) {
-      socialLinks.push({ label: 'LinkedIn', href: contact.linkedin });
-    }
-    if (contact.twitter && !isTodoValue(contact.twitter)) {
-      socialLinks.push({ label: 'X / Twitter', href: contact.twitter });
-    }
     if (contact.email && !isTodoValue(contact.email)) {
       socialLinks.push({ label: 'Email', href: `mailto:${contact.email}` });
     }
@@ -347,7 +365,224 @@
   }
 
   /* ------------------------------------------------------------------------
-     4. CONFIG DATA HYDRATION ACROSS PAGES
+     4. INTERACTIVE HERO STUDIO PANEL & VISUAL META ADS SHOWCASE
+     ------------------------------------------------------------------------ */
+  function hydrateHeroStudioCard() {
+    const card = document.querySelector('[data-hero-studio]');
+    const tabs = cfg.hero?.studioTabs;
+    if (!card || !Array.isArray(tabs) || !tabs.length) return;
+
+    const tabsEl = card.querySelector('[data-studio-tabs]');
+    const bodyEl = card.querySelector('[data-studio-body]');
+    if (!tabsEl || !bodyEl) return;
+
+    let activeId = tabs[0].id;
+
+    const renderBody = (tab) => {
+      const specsHtml = (tab.specs || [])
+        .map(
+          (s) =>
+            `<div class="studio-spec-row"><span>${escapeHtml(s.k)}</span><span>${escapeHtml(s.v)}</span></div>`
+        )
+        .join('');
+
+      bodyEl.innerHTML = `
+        <div class="studio-panel-animate" style="display:flex; flex-direction:column; gap:0.85rem;">
+          <div class="project-meta">
+            <span class="mono-label mono-label--accent">${escapeHtml(tab.badge)}</span>
+          </div>
+          <h2 class="card-h3">${escapeHtml(tab.title)}</h2>
+          <p class="project-desc" style="font-size:0.9rem;">${escapeHtml(tab.summary)}</p>
+          <div class="studio-spec-list">${specsHtml}</div>
+          <div>
+            <a href="${escapeHtml(tab.ctaHref)}" class="link-slide">${escapeHtml(tab.ctaLabel)}</a>
+          </div>
+        </div>
+      `;
+    };
+
+    const renderTabs = () => {
+      tabsEl.innerHTML = tabs
+        .map(
+          (t) => `
+          <button
+            type="button"
+            class="tab-btn${t.id === activeId ? ' is-active' : ''}"
+            data-studio-tab="${escapeHtml(t.id)}"
+            aria-pressed="${t.id === activeId ? 'true' : 'false'}"
+          >
+            ${escapeHtml(t.tabLabel)}
+          </button>
+        `
+        )
+        .join('');
+
+      tabsEl.querySelectorAll('[data-studio-tab]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          activeId = btn.getAttribute('data-studio-tab');
+          const next = tabs.find((t) => t.id === activeId) || tabs[0];
+          renderTabs();
+          renderBody(next);
+        });
+      });
+    };
+
+    renderTabs();
+    renderBody(tabs[0]);
+  }
+
+  function hydrateMetaAdsSection() {
+    const m = cfg.metaAds;
+    if (!m) return;
+
+    const introEl = document.querySelector('[data-meta-ads-intro]');
+    if (introEl && m.intro) introEl.textContent = m.intro;
+
+    // 2-column visual showcase on Home
+    const showcaseEl = document.querySelector('[data-meta-showcase]');
+    if (showcaseEl) {
+      const modes = Array.isArray(m.funnelModes) ? m.funnelModes : [];
+      const pillarIcons = ['target', 'users', 'pulse', 'layout'];
+      const pillarsHtml = (m.pillars || [])
+        .map(
+          (item, idx) => `
+          <article class="surface-card pillar-row" data-reveal>
+            ${getIconSvg(pillarIcons[idx % pillarIcons.length])}
+            <div style="min-width:0;">
+              <div class="mono-label mono-label--accent" style="margin-bottom:0.25rem;">${escapeHtml(item.number)}</div>
+              <h3 class="card-h3" style="margin-bottom:0.3rem;">${escapeHtml(item.title)}</h3>
+              <p class="project-desc" style="font-size:0.9rem;">${escapeHtml(item.desc)}</p>
+            </div>
+          </article>
+        `
+        )
+        .join('');
+
+      showcaseEl.innerHTML = `
+        <div class="card-featured meta-visual-card" data-reveal>
+          <div class="project-frame">
+            <div class="browser-chrome">
+              <span class="browser-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+              <span class="browser-url">meta-ads · pixel → landing-page</span>
+            </div>
+            <div class="project-media">
+              <img
+                src="${escapeHtml(m.image || '/assets/img/meta-ads-showcase.webp')}"
+                alt="${escapeHtml(m.imageAlt || 'Meta Ads campaign funnel diagram')}"
+                width="${Number(m.imageWidth) || 1008}"
+                height="${Number(m.imageHeight) || 630}"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+
+          <div class="meta-funnel-box">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;">
+              <span class="mono-label mono-label--accent">Interactive Funnel Blueprint</span>
+              <span class="mono-label">Select Objective</span>
+            </div>
+            <div class="tab-strip" data-meta-tabs></div>
+            <div data-meta-funnel-body></div>
+          </div>
+        </div>
+
+        <div class="meta-pillars-col">
+          ${pillarsHtml}
+          <div class="btn-group btn-group--stack-xs" style="margin-top:0.35rem;" data-reveal>
+            <a href="/contact" class="btn btn--primary">Launch a Meta Campaign →</a>
+            <a href="/services" class="btn btn--secondary">View Full Scope</a>
+          </div>
+        </div>
+      `;
+
+      const tabsContainer = showcaseEl.querySelector('[data-meta-tabs]');
+      const funnelBody = showcaseEl.querySelector('[data-meta-funnel-body]');
+      if (tabsContainer && funnelBody && modes.length) {
+        let activeModeId = modes[0].id;
+
+        const renderFunnelBody = (mode) => {
+          funnelBody.innerHTML = `
+            <div class="meta-funnel-steps studio-panel-animate">
+              <div class="meta-step-tile">
+                <span class="mono-label">Objective</span>
+                <strong>${escapeHtml(mode.objective)}</strong>
+              </div>
+              <div class="meta-step-tile">
+                <span class="mono-label">Placement</span>
+                <strong>${escapeHtml(mode.placement)}</strong>
+              </div>
+              <div class="meta-step-tile">
+                <span class="mono-label">Pixel / Tracking</span>
+                <strong>${escapeHtml(mode.tracking)}</strong>
+              </div>
+              <div class="meta-step-tile">
+                <span class="mono-label">Conversion Flow</span>
+                <strong>${escapeHtml(mode.flow)}</strong>
+              </div>
+            </div>
+          `;
+        };
+
+        const renderModeTabs = () => {
+          tabsContainer.innerHTML = modes
+            .map(
+              (mode) => `
+              <button
+                type="button"
+                class="tab-btn${mode.id === activeModeId ? ' is-active' : ''}"
+                data-meta-tab="${escapeHtml(mode.id)}"
+                aria-pressed="${mode.id === activeModeId ? 'true' : 'false'}"
+              >
+                ${escapeHtml(mode.tabLabel)}
+              </button>
+            `
+            )
+            .join('');
+
+          tabsContainer.querySelectorAll('[data-meta-tab]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              activeModeId = btn.getAttribute('data-meta-tab');
+              const found = modes.find((x) => x.id === activeModeId) || modes[0];
+              renderModeTabs();
+              renderFunnelBody(found);
+            });
+          });
+        };
+
+        renderModeTabs();
+        renderFunnelBody(modes[0]);
+      }
+    }
+
+    // 4-card breakdown on /services
+    const pillarsEl = document.querySelector('[data-meta-ads-pillars]');
+    if (pillarsEl && Array.isArray(m.pillars)) {
+      const pillarIcons = ['target', 'users', 'pulse', 'layout'];
+      pillarsEl.innerHTML = m.pillars
+        .map(
+          (item, idx) => `
+          <article class="surface-card service-card" data-reveal>
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+              ${getIconSvg(pillarIcons[idx % pillarIcons.length])}
+              <span class="mono-label mono-label--accent">${escapeHtml(item.number)}</span>
+            </div>
+            <h3 class="card-h3">${escapeHtml(item.title)}</h3>
+            <p class="project-desc">${escapeHtml(item.desc)}</p>
+          </article>
+        `
+        )
+        .join('');
+    }
+
+    const todoNoteEl = document.querySelector('[data-meta-ads-todo]');
+    if (todoNoteEl && m.caseStudyTodoNote) {
+      todoNoteEl.textContent = m.caseStudyTodoNote;
+    }
+  }
+
+  /* ------------------------------------------------------------------------
+     5. CONFIG DATA HYDRATION ACROSS PAGES
      ------------------------------------------------------------------------ */
   function renderProjectCardHtml(project, variant) {
     const isHomeFeatured = variant === 'home';
@@ -366,18 +601,26 @@
       ? `<p class="wake-note">⏱ ${escapeHtml(project.wakeUpNote)}</p>`
       : '';
 
+    const domainLabel = formatDomainLabel(project.liveUrl);
+
     return `
       <article class="${cardClass}" data-reveal>
-        <a href="${escapeHtml(project.caseStudyUrl)}" class="project-media" aria-label="Read ${escapeHtml(project.title)} case study">
-          <img
-            src="${escapeHtml(project.image)}"
-            alt="${escapeHtml(project.imageAlt)}"
-            width="${Number(project.imageWidth) || 1008}"
-            height="${Number(project.imageHeight) || 630}"
-            loading="lazy"
-            decoding="async"
-          />
-        </a>
+        <div class="project-frame">
+          <div class="browser-chrome">
+            <span class="browser-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span class="browser-url">${escapeHtml(domainLabel)}</span>
+          </div>
+          <a href="${escapeHtml(project.caseStudyUrl)}" class="project-media" aria-label="Read ${escapeHtml(project.title)} case study">
+            <img
+              src="${escapeHtml(project.image)}"
+              alt="${escapeHtml(project.imageAlt)}"
+              width="${Number(project.imageWidth) || 1008}"
+              height="${Number(project.imageHeight) || 630}"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+        </div>
         <div class="project-body">
           <div class="project-meta">
             <span class="mono-label mono-label--accent">${escapeHtml(project.number)} / 03</span>
@@ -420,7 +663,6 @@
     const availEl = document.querySelector('[data-availability-short]');
     if (availEl && cfg.availability?.shortLabel) availEl.textContent = cfg.availability.shortLabel;
 
-    // Stats (strictly real stats from config)
     const statsEl = document.querySelector('[data-stats-grid]');
     if (statsEl && Array.isArray(cfg.stats)) {
       statsEl.innerHTML = cfg.stats
@@ -439,7 +681,6 @@
         .join('');
     }
 
-    // Marquee
     const marqueeEl = document.querySelector('[data-marquee-track]');
     if (marqueeEl && Array.isArray(cfg.marqueeItems)) {
       const groupHtml = cfg.marqueeItems
@@ -451,7 +692,6 @@
       marqueeEl.innerHTML = `<div class="marquee-group">${groupHtml}</div><div class="marquee-group" aria-hidden="true">${groupHtml}</div>`;
     }
 
-    // Selected Work (3 projects)
     const homeProjectsEl = document.querySelector('[data-home-projects]');
     if (homeProjectsEl && Array.isArray(cfg.projects)) {
       homeProjectsEl.innerHTML = cfg.projects
@@ -459,15 +699,18 @@
         .join('');
     }
 
-    // What I Do (first 3 service cards)
     const homeServicesEl = document.querySelector('[data-home-services]');
     if (homeServicesEl && Array.isArray(cfg.services)) {
+      const icons = ['layout', 'layers', 'tool'];
       homeServicesEl.innerHTML = cfg.services
         .slice(0, 3)
         .map(
-          (srv) => `
+          (srv, idx) => `
           <article class="surface-card service-card" data-reveal>
-            <span class="mono-label mono-label--accent">${escapeHtml(srv.number)}</span>
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+              ${getIconSvg(icons[idx % icons.length])}
+              <span class="mono-label mono-label--accent">${escapeHtml(srv.number)}</span>
+            </div>
             <h3 class="card-h3">${escapeHtml(srv.title)}</h3>
             <p class="project-desc">${escapeHtml(srv.shortDesc)}</p>
             <a href="/services" class="link-slide" style="margin-top: auto;">View details →</a>
@@ -477,38 +720,9 @@
         .join('');
     }
 
-    // About Teaser
     const teaserEl = document.querySelector('[data-about-teaser]');
     if (teaserEl && cfg.about?.teaser) {
       teaserEl.textContent = cfg.about.teaser;
-    }
-  }
-
-  function hydrateMetaAdsSection() {
-    const m = cfg.metaAds;
-    if (!m) return;
-
-    const introEl = document.querySelector('[data-meta-ads-intro]');
-    if (introEl && m.intro) introEl.textContent = m.intro;
-
-    const pillarsEl = document.querySelector('[data-meta-ads-pillars]');
-    if (pillarsEl && Array.isArray(m.pillars)) {
-      pillarsEl.innerHTML = m.pillars
-        .map(
-          (item) => `
-          <article class="surface-card service-card" data-reveal>
-            <span class="mono-label mono-label--accent">${escapeHtml(item.number)}</span>
-            <h3 class="card-h3">${escapeHtml(item.title)}</h3>
-            <p class="project-desc">${escapeHtml(item.desc)}</p>
-          </article>
-        `
-        )
-        .join('');
-    }
-
-    const todoNoteEl = document.querySelector('[data-meta-ads-todo]');
-    if (todoNoteEl && m.caseStudyTodoNote) {
-      todoNoteEl.textContent = m.caseStudyTodoNote;
     }
   }
 
@@ -577,6 +791,8 @@
       .map((item) => `<li>${escapeHtml(item)}</li>`)
       .join('');
 
+    const domainLabel = formatDomainLabel(project.liveUrl);
+
     root.innerHTML = `
       <section class="section" style="padding-top: clamp(2rem, 4vw, 3.5rem);">
         <div class="container">
@@ -604,15 +820,21 @@
           </div>
           ${wakeHtml}
 
-          <div class="case-hero-media" data-reveal>
-            <img
-              src="${escapeHtml(project.image)}"
-              alt="${escapeHtml(project.imageAlt)}"
-              width="${Number(project.imageWidth) || 1008}"
-              height="${Number(project.imageHeight) || 630}"
-              loading="eager"
-              decoding="async"
-            />
+          <div class="case-hero-media project-frame" data-reveal>
+            <div class="browser-chrome">
+              <span class="browser-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+              <span class="browser-url">${escapeHtml(domainLabel)}</span>
+            </div>
+            <div class="project-media">
+              <img
+                src="${escapeHtml(project.image)}"
+                alt="${escapeHtml(project.imageAlt)}"
+                width="${Number(project.imageWidth) || 1008}"
+                height="${Number(project.imageHeight) || 630}"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -682,12 +904,16 @@
   function hydrateServicesPage() {
     const servicesList = document.querySelector('[data-services-list]');
     if (servicesList && Array.isArray(cfg.services)) {
+      const icons = ['layout', 'layers', 'tool', 'target'];
       servicesList.innerHTML = cfg.services
         .map(
-          (srv) => `
+          (srv, idx) => `
           <article class="surface-card card-featured service-card" data-reveal>
             <div class="project-meta">
-              <span class="mono-label mono-label--accent">${escapeHtml(srv.number)}</span>
+              <div style="display:flex; align-items:center; gap:0.7rem;">
+                ${getIconSvg(icons[idx % icons.length])}
+                <span class="mono-label mono-label--accent">${escapeHtml(srv.number)}</span>
+              </div>
               <span class="service-price">${escapeHtml(srv.price)}</span>
             </div>
             <h2 class="card-h3">${escapeHtml(srv.title)}</h2>
@@ -718,11 +944,15 @@
 
     const whyEl = document.querySelector('[data-why-list]');
     if (whyEl && Array.isArray(cfg.whyWorkWithMe)) {
+      const icons = ['bolt', 'users', 'layout', 'tool'];
       whyEl.innerHTML = cfg.whyWorkWithMe
         .map(
           (w, idx) => `
           <article class="surface-card service-card" data-reveal>
-            <span class="mono-label mono-label--accent">0${idx + 1}</span>
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+              ${getIconSvg(icons[idx % icons.length])}
+              <span class="mono-label mono-label--accent">0${idx + 1}</span>
+            </div>
             <h3 class="card-h3">${escapeHtml(w.title)}</h3>
             <p class="project-desc">${escapeHtml(w.desc)}</p>
           </article>
@@ -790,7 +1020,6 @@
     if (reachEl && cfg.contact) {
       const c = cfg.contact;
       const emailDisplay = c.email || 'TODO-your-email@example.com';
-
       const emailHasValue = !isTodoValue(emailDisplay);
 
       const rows = [
@@ -874,7 +1103,7 @@
   }
 
   /* ------------------------------------------------------------------------
-     5. CONTACT FORM SUBMISSION (FORMSPREE)
+     6. CONTACT FORM SUBMISSION (FORMSPREE)
      ------------------------------------------------------------------------ */
   function initContactForm() {
     const form = document.getElementById('contact-form');
@@ -909,7 +1138,6 @@
         statusBox.textContent = '';
       }
 
-      // Honeypot check
       if (honeypotInput && honeypotInput.value.trim() !== '') {
         return;
       }
@@ -969,7 +1197,7 @@
           statusBox.textContent = "Got it. I'll reply soon.";
         }
       } catch (_) {
-        const fallbackEmail = cfg.contact?.email || 'TODO-your-email@example.com';
+        const fallbackEmail = cfg.contact?.email || 'webdevlop4uu@gmail.com';
         if (statusBox) {
           statusBox.hidden = false;
           statusBox.className = 'form-feedback form-feedback--error';
@@ -985,7 +1213,7 @@
   }
 
   /* ------------------------------------------------------------------------
-     6. MOTION (GSAP + SCROLLTRIGGER) & SMOOTH PAGE FADES
+     7. MOTION (GSAP + SCROLLTRIGGER) & SMOOTH PAGE FADES
      ------------------------------------------------------------------------ */
   function initMotion() {
     if (prefersReducedMotion) return;
@@ -997,7 +1225,6 @@
         gsap.registerPlugin(window.ScrollTrigger);
       }
 
-      // Hero entrance: slide lines up from mask, then fade up supporting details
       const heroLines = document.querySelectorAll('.hero-line');
       if (heroLines.length) {
         gsap.from(heroLines, {
@@ -1015,14 +1242,13 @@
           y: 18,
           opacity: 0,
           duration: 0.65,
-          delay: 0.16,
+          delay: 0.14,
           stagger: 0.08,
           ease: 'power2.out',
           clearProps: 'transform,opacity'
         });
       }
 
-      // Scroll-triggered reveals
       if (typeof window.ScrollTrigger !== 'undefined') {
         const revealEls = document.querySelectorAll('[data-reveal]');
         revealEls.forEach((el) => {
@@ -1040,7 +1266,6 @@
           });
         });
 
-        // Count-up ONLY for verified numeric stats
         const countEls = document.querySelectorAll('[data-count-target]');
         countEls.forEach((el) => {
           const target = Number(el.getAttribute('data-count-target'));
@@ -1117,7 +1342,7 @@
   }
 
   /* ------------------------------------------------------------------------
-     7. BOOTSTRAP
+     8. BOOTSTRAP
      ------------------------------------------------------------------------ */
   function init() {
     renderHeaderAndMobileMenu();
@@ -1125,6 +1350,7 @@
     initChromeEffects();
 
     hydrateHomePage();
+    hydrateHeroStudioCard();
     hydrateMetaAdsSection();
     hydrateSkills();
     hydrateProjectsPage();

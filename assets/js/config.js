@@ -54,9 +54,53 @@ window.PORTFOLIO_CONFIG = {
     greeting: "Hi, I'm Awais",
     tagline: "Full-stack developer building fast, useful web products.",
     supportingLine:
-      "I design and engineer clean, mobile-first websites, full-stack web apps, and practical browser utilities—built to load fast and solve real problems.",
+      "I design and engineer clean, mobile-first websites, full-stack web apps, browser utilities, and Meta Ads campaigns—built to load fast and convert cleanly.",
     primaryCta: { label: "View Projects", href: "/projects" },
-    secondaryCta: { label: "Contact Me", href: "/contact" }
+    secondaryCta: { label: "Contact Me", href: "/contact" },
+    studioTabs: [
+      {
+        id: "apps",
+        tabLabel: "Web Apps",
+        badge: "MERN Stack",
+        title: "Full-stack web applications",
+        summary: "Authentication, REST APIs, dashboards, and AI-assisted workflows shipped with React, Node.js, and MongoDB.",
+        specs: [
+          { k: "Featured", v: "QueryHub & AI Finance" },
+          { k: "Backend", v: "Express + MongoDB + JWT" },
+          { k: "Frontend", v: "React + Tailwind CSS" }
+        ],
+        ctaLabel: "Explore Projects →",
+        ctaHref: "/projects"
+      },
+      {
+        id: "tools",
+        tabLabel: "Web Tools",
+        badge: "Client-Side",
+        title: "15 browser utilities built",
+        summary: "Zero-signup PDF converters, image optimization, and direct WebRTC file sharing running directly in the browser.",
+        specs: [
+          { k: "Featured", v: "StackoTools Suite" },
+          { k: "Core", v: "HTML5 · JS · WebRTC" },
+          { k: "Privacy", v: "100% Browser-Side" }
+        ],
+        ctaLabel: "View Case Study →",
+        ctaHref: "/projects/webtools"
+      },
+      {
+        id: "ads",
+        tabLabel: "Meta Ads",
+        badge: "FB & IG Ads",
+        title: "Ads + fast landing pages",
+        summary: "Campaign architecture, Meta Pixel verification, and custom-coded mobile pages built for leads and conversions.",
+        specs: [
+          { k: "Platform", v: "Meta Ads Manager" },
+          { k: "Tracking", v: "Meta Pixel & Events" },
+          { k: "Destination", v: "Custom Landing Pages" }
+        ],
+        ctaLabel: "Meta Ads Scope →",
+        ctaHref: "/services"
+      }
+    ]
   },
 
   // Only verified numbers grounded in your shipped repositories.
@@ -131,6 +175,36 @@ window.PORTFOLIO_CONFIG = {
     heading: "Meta Ads paired with fast, conversion-ready pages",
     intro:
       "Paid campaigns perform best when creative targeting, tracking, and page speed work together. Alongside full-stack web engineering, I manage Facebook & Instagram ad setups built around clean Meta Pixel verification and fast mobile landing experiences.",
+    image: "/assets/img/meta-ads-showcase.webp",
+    imageAlt: "Dark editorial illustration showing a Facebook/Instagram ad card flowing through conversion analytics into a mobile landing page",
+    imageWidth: 1008,
+    imageHeight: 630,
+    funnelModes: [
+      {
+        id: "leads",
+        tabLabel: "Lead Gen",
+        objective: "Leads / Instant Form or Web Form",
+        placement: "Instagram Reels, Feed & Facebook Feed",
+        tracking: "Meta Pixel Lead + Formspree verification",
+        flow: "Hook Creative → Fast Mobile Page → Qualified Inquiry"
+      },
+      {
+        id: "messages",
+        tabLabel: "DM / Telegram",
+        objective: "Engagement / Messaging Conversations",
+        placement: "IG Stories, Reels & FB Mobile Feed",
+        tracking: "Click & conversation-start attribution",
+        flow: "Problem Hook → Direct Chat Prompt → Fast Reply"
+      },
+      {
+        id: "conversions",
+        tabLabel: "Landing Funnel",
+        objective: "Sales / Custom Web Conversion Event",
+        placement: "Advantage+ & Retargeting Placements",
+        tracking: "PageView → ViewContent → Lead / Purchase",
+        flow: "Ad Angle Match → <1s Landing Page → Retargeting Pool"
+      }
+    ],
     pillars: [
       {
         number: "01",

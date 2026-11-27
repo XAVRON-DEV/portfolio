@@ -38,47 +38,65 @@
       <div class="hero-grid-overlay bg-grid-pattern" aria-hidden="true"></div>
       <div class="hero-blob" aria-hidden="true"></div>
 
-      <div class="container hero-inner">
-        <div class="hero-meta-row" data-hero-stagger>
-          <span class="status-pill">
-            <span class="status-dot" aria-hidden="true"></span>
-            <span data-availability-short>Available for freelance</span>
-          </span>
-          <span class="mono-label">Kolkata, IN · <span data-kolkata-time>IST</span></span>
-        </div>
+      <div class="container hero-split">
+        <div class="hero-inner">
+          <div class="hero-meta-row" data-hero-stagger>
+            <span class="status-pill">
+              <span class="status-dot" aria-hidden="true"></span>
+              <span data-availability-short>Available for freelance</span>
+            </span>
+            <span class="mono-label">Kolkata, IN · <span data-kolkata-time>IST</span></span>
+          </div>
 
-        <div>
-          <p class="hero-greeting" style="margin-bottom: 0.75rem;">
-            <span class="hero-line-mask"><span class="hero-line" data-hero-greeting>Hi, I'm Awais</span></span>
+          <div>
+            <p class="hero-greeting" style="margin-bottom: 0.75rem;">
+              <span class="hero-line-mask"><span class="hero-line" data-hero-greeting>Hi, I'm Awais</span></span>
+            </p>
+            <h1 class="display-h1" data-hero-tagline>
+              <span class="hero-line-mask"><span class="hero-line">Full-stack developer building fast, useful web products.</span></span>
+            </h1>
+          </div>
+
+          <p class="hero-copy" data-hero-support data-hero-stagger>
+            I design and engineer clean, mobile-first websites, full-stack web apps, browser utilities, and Meta Ads campaigns—built to load fast and convert cleanly.
           </p>
-          <h1 class="display-h1" data-hero-tagline>
-            <span class="hero-line-mask"><span class="hero-line">Full-stack developer building fast, useful web products.</span></span>
-          </h1>
-        </div>
 
-        <p class="hero-copy" data-hero-support data-hero-stagger>
-          I design and engineer clean, mobile-first websites, full-stack web apps, and practical browser utilities—built to load fast and solve real problems.
-        </p>
-
-        <div class="btn-group btn-group--stack-xs" data-hero-stagger>
-          <a href="/projects" class="btn btn--primary">View Projects →</a>
-          <a href="/contact" class="btn btn--secondary">Contact Me</a>
-        </div>
-
-        <div class="hero-stats" data-stats-grid data-hero-stagger>
-          <div class="stat-item">
-            <div class="stat-value">3</div>
-            <div class="stat-label">Shipped Web Products</div>
+          <div class="btn-group btn-group--stack-xs" data-hero-stagger>
+            <a href="/projects" class="btn btn--primary">View Projects →</a>
+            <a href="/contact" class="btn btn--secondary">Contact Me</a>
           </div>
-          <div class="stat-item">
-            <div class="stat-value">2</div>
-            <div class="stat-label">Full-Stack MERN Apps</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">15</div>
-            <div class="stat-label">Browser Tools Built</div>
+
+          <div class="hero-stats" data-stats-grid data-hero-stagger>
+            <div class="stat-item">
+              <div class="stat-value">3</div>
+              <div class="stat-label">Shipped Web Products</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">2</div>
+              <div class="stat-label">Full-Stack MERN Apps</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">15</div>
+              <div class="stat-label">Browser Tools Built</div>
+            </div>
           </div>
         </div>
+
+        <aside class="hero-studio-card" data-hero-studio data-hero-stagger aria-label="XAVRON focus overview">
+          <div class="studio-card-head">
+            <span class="mono-label mono-label--accent">XAVRON // FOCUS</span>
+            <span class="mono-label">Interactive</span>
+          </div>
+          <div class="tab-strip" data-studio-tabs></div>
+          <div class="studio-panel-body" data-studio-body>
+            <h2 class="card-h3">Full-stack web applications</h2>
+            <p class="project-desc" style="font-size: 0.9rem;">Authentication, REST APIs, dashboards, and AI-assisted workflows shipped with React, Node.js, and MongoDB.</p>
+          </div>
+          <div class="studio-card-foot">
+            <span class="mono-label">GitHub: XAVRON-DEV</span>
+            <a href="/contact" class="mono-label mono-label--accent">Hire me →</a>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -168,11 +186,24 @@
           <a href="/services" class="link-slide">Meta Ads scope →</a>
         </div>
 
-        <div class="grid-4" data-meta-ads-pillars>
-          <article class="surface-card service-card"><h3 class="card-h3">Campaign Structure &amp; Testing</h3></article>
-          <article class="surface-card service-card"><h3 class="card-h3">Audience &amp; Retargeting Setup</h3></article>
-          <article class="surface-card service-card"><h3 class="card-h3">Meta Pixel &amp; Event Verification</h3></article>
-          <article class="surface-card service-card"><h3 class="card-h3">Dedicated Ad Landing Pages</h3></article>
+        <div class="meta-showcase" data-meta-showcase>
+          <div class="card-featured meta-visual-card">
+            <div class="project-frame">
+              <div class="browser-chrome">
+                <span class="browser-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+                <span class="browser-url">meta-ads · pixel → landing-page</span>
+              </div>
+              <div class="project-media">
+                <img src="/assets/img/meta-ads-showcase.webp" alt="Meta Ads funnel flow illustration" width="1008" height="630" loading="lazy" decoding="async" />
+              </div>
+            </div>
+          </div>
+          <div class="meta-pillars-col">
+            <article class="surface-card pillar-row"><h3 class="card-h3">Campaign Structure &amp; Testing</h3></article>
+            <article class="surface-card pillar-row"><h3 class="card-h3">Audience &amp; Retargeting Setup</h3></article>
+            <article class="surface-card pillar-row"><h3 class="card-h3">Meta Pixel &amp; Event Verification</h3></article>
+            <article class="surface-card pillar-row"><h3 class="card-h3">Dedicated Ad Landing Pages</h3></article>
+          </div>
         </div>
       </div>
     </section>
