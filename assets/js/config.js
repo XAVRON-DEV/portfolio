@@ -26,8 +26,7 @@ window.PORTFOLIO_CONFIG = {
   // 2. CONTACT & SOCIAL LINKS (Replace TODO placeholders)
   // --------------------------------------------------------------------------
   contact: {
-    // TODO: Replace with your real business/freelance email
-    email: "TODO-your-email@example.com",
+    email: "webdevlop4uu@gmail.com",
     formspreeEndpoint: "https://formspree.io/f/xvkakkvr",
     telegram: "https://t.me/Dangerous_Bomberr",
     instagram: "https://www.instagram.com/web.devlop.4u?fqnt=MXJmN2g5NjJsemdtMQ==",
@@ -70,7 +69,7 @@ window.PORTFOLIO_CONFIG = {
   ],
 
   // --------------------------------------------------------------------------
-  // 5. MARQUEE & SKILLS (Verified from repositories)
+  // 5. MARQUEE & SKILLS (Web Engineering + Meta Ads)
   // --------------------------------------------------------------------------
   marqueeItems: [
     "HTML5",
@@ -82,10 +81,10 @@ window.PORTFOLIO_CONFIG = {
     "Node.js",
     "Express",
     "MongoDB",
-    "Mongoose",
-    "JWT Auth",
     "REST APIs",
-    "WebRTC",
+    "Meta Ads Manager",
+    "Facebook & Instagram Ads",
+    "Meta Pixel & Events",
     "Git & GitHub"
   ],
 
@@ -95,12 +94,14 @@ window.PORTFOLIO_CONFIG = {
       items: ["HTML5", "CSS3", "JavaScript", "React", "Tailwind CSS", "Vite", "Recharts"]
     },
     {
-      title: "Backend",
-      items: ["Node.js", "Express", "MongoDB", "Mongoose", "REST APIs", "JWT Auth"]
-    },
-    {
-      title: "Tools & Deployment",
+      title: "Backend & Tools",
       items: [
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Mongoose",
+        "REST APIs",
+        "JWT Auth",
         "Git",
         "GitHub",
         "Netlify",
@@ -108,8 +109,54 @@ window.PORTFOLIO_CONFIG = {
         "Vercel"
         // TODO: Add "Figma" here if you use Figma in your design workflow
       ]
+    },
+    {
+      title: "Meta Ads & Growth",
+      items: [
+        "Meta Ads Manager",
+        "Facebook & Instagram Ads",
+        "Meta Pixel & Event Setup",
+        "Custom & Lookalike Audiences",
+        "Creative & Copy Testing",
+        "Ad Landing Pages"
+      ]
     }
   ],
+
+  // --------------------------------------------------------------------------
+  // 5B. META ADS MANAGEMENT CAPABILITIES (No invented ROAS/spend claims)
+  // --------------------------------------------------------------------------
+  metaAds: {
+    eyebrow: "Paid Social · Meta Ads Management",
+    heading: "Meta Ads paired with fast, conversion-ready pages",
+    intro:
+      "Paid campaigns perform best when creative targeting, tracking, and page speed work together. Alongside full-stack web engineering, I manage Facebook & Instagram ad setups built around clean Meta Pixel verification and fast mobile landing experiences.",
+    pillars: [
+      {
+        number: "01",
+        title: "Campaign Structure & Testing",
+        desc: "Structured Meta Ads Manager campaigns for leads, messages, or sales with organized creative hooks, copy variants, and placements."
+      },
+      {
+        number: "02",
+        title: "Audience & Retargeting Setup",
+        desc: "Layered interest targeting paired with Custom Audiences (site visitors, video viewers, IG engagers) and Lookalike segments."
+      },
+      {
+        number: "03",
+        title: "Meta Pixel & Event Verification",
+        desc: "Clean Pixel and event configuration (PageView, Lead, Contact, Purchase) tested before spend scales so optimization stays accurate."
+      },
+      {
+        number: "04",
+        title: "Dedicated Ad Landing Pages",
+        desc: "Custom-coded, mobile-first landing pages aligned to each ad angle—eliminating slow templates and turning clicks into inquiries."
+      }
+    ],
+    // TODO: Replace this invite note with verified Meta Ads campaign case studies (objective, creative format, verified results)
+    caseStudyTodoNote:
+      "Looking for Meta Ads campaign setups, creative structures, or landing funnel walkthroughs? Reach out on Telegram (@Dangerous_Bomberr) or email (webdevlop4uu@gmail.com) to review examples tailored to your niche."
+  },
 
   // --------------------------------------------------------------------------
   // 6. SELECTED PROJECTS (Researched directly from repos & live deployments)
@@ -293,14 +340,14 @@ window.PORTFOLIO_CONFIG = {
     },
     {
       number: "04",
-      title: "Website Redesigns & Cleanup",
+      title: "Meta Ads Management (FB & IG)",
       shortDesc:
-        "Modernizing dated sites with better visual hierarchy, mobile usability, cleaner code, and smoother performance.",
+        "Structured Facebook & Instagram ad management—campaign setup, audience targeting, creative testing, Meta Pixel verification, and landing page alignment.",
       price: "Starting at ₹TODO",
       deliverables: [
-        "Mobile responsiveness audit and layout overhaul",
-        "Asset optimization, accessibility fixes, and semantic markup",
-        "Refined typography, spacing, and moderate motion polish"
+        "Campaign setup in Meta Ads Manager for leads, messages, or conversions",
+        "Audience research, retargeting pools, and creative A/B testing",
+        "Meta Pixel event verification and clear weekly progress summaries"
       ]
     }
   ],
@@ -356,7 +403,7 @@ window.PORTFOLIO_CONFIG = {
     intro:
       "I'm Awais—a web developer from Kolkata, India, working under the alias XAVRON. I enjoy taking ideas from an empty repository to a live, usable product on the web.",
     whatIBuild:
-      "Across my projects on GitHub (under stackotools and XAVRON-DEV), I've built full-stack MERN applications like QueryHub and AI Finance Manager as well as client-side browser tools in Web Tools. I care about practical details: predictable APIs, responsive layouts on small screens, clean typography, and interfaces that stay understandable without a manual.",
+      "Across my software projects on GitHub (under stackotools and XAVRON-DEV), I've built full-stack MERN applications like QueryHub and AI Finance Manager as well as client-side browser tools in Web Tools. Alongside development, I manage Meta Ads (Facebook & Instagram)—connecting campaign targeting, Meta Pixel tracking, and fast mobile landing pages.",
     // TODO: Replace with what you are actively learning right now
     currentlyLearning:
       "TODO: Add the technologies, frameworks, or CS topics you are currently focused on learning.",

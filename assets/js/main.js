@@ -484,6 +484,34 @@
     }
   }
 
+  function hydrateMetaAdsSection() {
+    const m = cfg.metaAds;
+    if (!m) return;
+
+    const introEl = document.querySelector('[data-meta-ads-intro]');
+    if (introEl && m.intro) introEl.textContent = m.intro;
+
+    const pillarsEl = document.querySelector('[data-meta-ads-pillars]');
+    if (pillarsEl && Array.isArray(m.pillars)) {
+      pillarsEl.innerHTML = m.pillars
+        .map(
+          (item) => `
+          <article class="surface-card service-card" data-reveal>
+            <span class="mono-label mono-label--accent">${escapeHtml(item.number)}</span>
+            <h3 class="card-h3">${escapeHtml(item.title)}</h3>
+            <p class="project-desc">${escapeHtml(item.desc)}</p>
+          </article>
+        `
+        )
+        .join('');
+    }
+
+    const todoNoteEl = document.querySelector('[data-meta-ads-todo]');
+    if (todoNoteEl && m.caseStudyTodoNote) {
+      todoNoteEl.textContent = m.caseStudyTodoNote;
+    }
+  }
+
   function hydrateSkills() {
     const containers = document.querySelectorAll('[data-skills-groups]');
     if (!containers.length || !Array.isArray(cfg.skillGroups)) return;
@@ -763,10 +791,13 @@
       const c = cfg.contact;
       const emailDisplay = c.email || 'TODO-your-email@example.com';
 
+      const emailHasValue = !isTodoValue(emailDisplay);
+
       const rows = [
         {
           label: 'Email',
           value: emailDisplay,
+          valueHref: emailHasValue ? `mailto:${emailDisplay}` : null,
           actionHtml: `<button type="button" class="btn btn--secondary btn--sm" id="copy-email-btn">Copy</button>`
         },
         {
@@ -799,11 +830,15 @@
               ? `<a href="${escapeHtml(row.href)}" class="btn btn--secondary btn--sm" target="_blank" rel="noopener noreferrer">Open ↗</a>`
               : `<span class="todo-badge">TODO</span>`;
 
+          const valHtml = row.valueHref
+            ? `<a href="${escapeHtml(row.valueHref)}" class="reach-item-val" style="color: var(--accent); text-decoration: underline; text-underline-offset: 3px;">${escapeHtml(row.value)}</a>`
+            : `<span class="reach-item-val">${escapeHtml(row.value)}</span>`;
+
           return `
             <div class="reach-item">
               <div class="reach-item-text">
                 <span class="mono-label">${escapeHtml(row.label)}</span>
-                <span class="reach-item-val">${escapeHtml(row.value)}</span>
+                ${valHtml}
               </div>
               ${rightSide}
             </div>
@@ -1090,6 +1125,7 @@
     initChromeEffects();
 
     hydrateHomePage();
+    hydrateMetaAdsSection();
     hydrateSkills();
     hydrateProjectsPage();
     hydrateCaseStudyPage();
